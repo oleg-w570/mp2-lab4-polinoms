@@ -138,6 +138,40 @@ TEST(Polinom, sub_eq_deg_monom)
 	EXPECT_EQ(B, A);
 }
 
+TEST(Polinom, mult_zero_cf_monom)
+{
+	Polinom A, B;
+	Monom m = 0;
+
+	A.str_to_poly("x^3 + y^5 - 10z + 1");
+	B.str_to_poly("0");
+	A *= m;
+
+	EXPECT_EQ(B, A);
+}
+
+TEST(Polinom, throw_mult_big_digree_monom)
+{
+	Polinom A;
+	Monom m(5, 555);
+
+	A.str_to_poly("x^5+5");
+
+	ASSERT_ANY_THROW(A * m);
+}
+
+TEST(Polinom, mult_monom)
+{
+	Polinom A, B;
+	Monom m(4, 123);
+
+	A.str_to_poly("x^5 - 5y^3 + 1.5z^5 + 1");
+	B.str_to_poly("4x^6y^2z^3 - 20x^1y^5z^3 + 6x^1y^2z^8 + 4x^1y^2z^3");
+	A = A * m;
+
+	EXPECT_EQ(B, A);
+}
+
 TEST(Polinom, add_scalar)
 {
 	Polinom A, B;
@@ -156,6 +190,17 @@ TEST(Polinom, sub_scalar)
 	B.str_to_poly("x^2 - 4.1");
 
 	A -= 5.1;
+
+	EXPECT_EQ(B, A);
+}
+
+TEST(Polinom, mult_zero)
+{
+	Polinom A, B;
+
+	A.str_to_poly("x^3 + y^5 - 10z + 1");
+	B.str_to_poly("0");
+	A *= 0.0;
 
 	EXPECT_EQ(B, A);
 }

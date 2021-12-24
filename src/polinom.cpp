@@ -44,6 +44,62 @@ Polinom Polinom::operator-(const Monom& monom) const
 	return res;
 }
 
+Polinom Polinom::operator*(const Monom& monom) const
+{
+	Polinom res;
+
+	if (monom.deg == 0 || abs(monom.cf) < 1e-10)
+		res *= (monom.cf);
+	else
+	{
+		Monom* pThis = Tail->next;
+		Monom* pRes = res.Tail;
+
+		while (pThis != Tail)
+		{
+			if (check_err_add_deg(pThis->deg, monom.deg))
+				throw std::exception("Wrong degree!");
+			pRes->next = new Monom(pThis->cf * monom.cf, pThis->deg + monom.deg, res.Tail);
+			pThis = pThis->next;
+			pRes = pRes->next;
+		}
+		if (abs(Tail->cf) > 1e-10)
+			pRes->next = new Monom(Tail->cf * monom.cf, Tail->deg + monom.deg, res.Tail);
+	}
+
+	return res;
+}
+
+Polinom& Polinom::operator*=(const Monom& monom)
+{
+	if (monom.deg == 0 || abs(monom.cf) < 1e-10)
+		operator*=(monom.cf);
+	else
+	{
+		Monom* pThis = Tail->next;
+
+		while (pThis != Tail)
+		{
+			if (check_err_add_deg(pThis->deg, monom.deg))
+				throw std::exception("Wrong degree!");
+			pThis->cf *= monom.cf;
+			pThis->deg += monom.deg;
+			pThis = pThis->next;
+		}
+
+		if (abs(Tail->cf) > 1e-10)
+		{
+			Tail->cf *= monom.cf;
+			Tail->deg += monom.deg;
+			Monom* tmp = Tail->next;
+			Tail->next = new Monom(0.0, 0, tmp);
+			Tail = Tail->next;
+		}
+	}
+
+	return *this;
+}
+
 Polinom& Polinom::operator+=(double scalar)
 {
 	Tail->cf += scalar;
@@ -72,13 +128,18 @@ Polinom Polinom::operator-(double scalar) const
 
 Polinom Polinom::operator*(double scalar) const
 {
-	Polinom res(*this);
-	res.Tail->cf *= scalar;
-	Monom* pRes = res.Tail->next;
-	while (pRes != Tail)
+	Polinom res;
+	if (abs(scalar) > 1e-10)
 	{
-		pRes->cf *= scalar;
-		pRes = pRes->next;
+		res.Tail->cf *= scalar;
+		Monom* pThis = Tail->next;
+		Monom* pRes = res.Tail;
+		while (pThis != Tail)
+		{
+			pRes->next = new Monom(pThis->cf * scalar, pThis->deg);
+			pThis = pThis->next;
+			pRes = pRes->next;
+		}
 	}
 	return res;
 }
@@ -86,11 +147,26 @@ Polinom Polinom::operator*(double scalar) const
 Polinom& Polinom::operator*=(double scalar)
 {
 	Tail->cf *= scalar;
-	Monom* p = Tail->next;
-	while (p != Tail)
+	if (abs(scalar) < 1e-10)
 	{
-		p->cf *= scalar;
-		p = p->next;
+		Monom* p = Tail->next;
+		Monom* q = Tail->next;
+		while (p != Tail)
+		{
+			q = p->next;
+			delete p;
+			p = q;
+		}
+		Tail->next = Tail;
+	}
+	else
+	{
+		Monom* pThis = Tail->next;
+		while (pThis != Tail)
+		{
+			pThis->cf *= scalar;
+			pThis = pThis->next;
+		}
 	}
 	return *this;
 }
@@ -310,14 +386,7 @@ Polinom Polinom::operator*(const Polinom& poly) const
 
 	do
 	{
-		do
-		{
-			if (check_err_add_deg(pThis->deg, pPoly->deg))
-				throw std::exception("Wrong degree");
-			Monom tmp(pThis->cf * pPoly->cf, pThis->deg + pPoly->deg);
-			res.Insert(tmp);
-			pPoly = pPoly->next;
-		} while (pPoly != poly.Tail);
+		res += poly * (*pThis);
 		pThis = pThis->next;
 	} while (pThis != Tail);
 

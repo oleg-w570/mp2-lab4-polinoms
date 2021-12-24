@@ -23,6 +23,8 @@ public:
 	Polinom& operator-=(const Monom& monom);
 	Polinom operator+(const Monom& monom) const;
 	Polinom operator-(const Monom& monom) const;
+	Polinom operator*(const Monom& monom) const;
+	Polinom& operator*=(const Monom& monom);
 	Polinom& operator+=(double scalar);
 	Polinom& operator-=(double scalar);
 	Polinom operator+(double scalar) const;
