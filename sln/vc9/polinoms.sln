@@ -1,19 +1,15 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gtest", "gtest\gtest.vcproj", "{60932AFC-7808-48B7-B3BF-F2BC151C0065}"
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gtest", "gtest\gtest.vcxproj", "{60932AFC-7808-48B7-B3BF-F2BC151C0065}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tests", "tests\tests.vcproj", "{C650C93E-F0A7-4235-9F5F-0DCE78609BFB}"
-	ProjectSection(ProjectDependencies) = postProject
-		{62061A03-752E-4892-AC65-4B7732128666} = {62061A03-752E-4892-AC65-4B7732128666}
-	EndProjectSection
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tests", "tests\tests.vcxproj", "{C650C93E-F0A7-4235-9F5F-0DCE78609BFB}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sample", "sample\sample.vcproj", "{5D0218F2-E502-414F-BA66-9E76B2785178}"
-	ProjectSection(ProjectDependencies) = postProject
-		{62061A03-752E-4892-AC65-4B7732128666} = {62061A03-752E-4892-AC65-4B7732128666}
-	EndProjectSection
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sample", "sample\sample.vcxproj", "{5D0218F2-E502-414F-BA66-9E76B2785178}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "polinom", "polinom\polinom.vcproj", "{62061A03-752E-4892-AC65-4B7732128666}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "polinom", "polinom\polinom.vcxproj", "{62061A03-752E-4892-AC65-4B7732128666}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -40,5 +36,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A19A69A3-6AE2-4F2F-A725-8D8E9152A982}
 	EndGlobalSection
 EndGlobal
